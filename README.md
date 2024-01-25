@@ -1,2 +1,2 @@
-# Baekjoon
-Repository for recording Baekjoon Algorithm problem solving
+# Algorithm
+Repository for recording Algorithm problem solving
