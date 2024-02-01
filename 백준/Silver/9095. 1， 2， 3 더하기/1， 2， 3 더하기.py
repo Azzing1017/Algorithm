@@ -1,22 +1,18 @@
 list = [1, 2, 3]
 list_put = []
 
-def go(n):
-    global list, list_put, count
-    if sum(list_put) > n:
-        return
-    elif sum(list_put) == n:
-        count += 1
-        return
+def go(sum, n):
+    if sum > n:
+        return 0
+    elif sum == n:
+        return 1
     else:
-        for i in list:
-            list_put.append(i)
-            go(n)
-            list_put.pop()
+        now = 0
+        for i in range(3):
+            now += go(sum+list[i], n)
+        return now
 
 T = int(input())
 for _ in range(T):
     n = int(input())
-    count = 0
-    go(n)
-    print(count)
+    print(go(0, n))
