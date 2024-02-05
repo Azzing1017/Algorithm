@@ -6,4 +6,4 @@ sum_li = 0
 for i in range(len(li)):
     sum_li += dic_en[li[i]]*(31**i)
 
-print(sum_li)
+print(sum_li%1234567891)
