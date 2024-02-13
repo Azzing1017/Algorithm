@@ -1,12 +1,11 @@
 import sys
-import re
 from collections import deque
 
 T = int(sys.stdin.readline().strip())
 for _ in range(T):
     cmd = deque(sys.stdin.readline().strip())
     N = int(sys.stdin.readline().strip())
-    li = deque(map(int, re.findall(r'\d+', sys.stdin.readline().strip())))
+    li = deque(map(int, filter(None, sys.stdin.readline().strip('[]\n').split(','))))
     cnt = 0
     check = True
     while cmd:
