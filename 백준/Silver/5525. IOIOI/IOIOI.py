@@ -3,15 +3,19 @@ import sys
 N = int(sys.stdin.readline().strip())
 M = int(sys.stdin.readline().strip())
 S = sys.stdin.readline().strip()
-NS = 'I' + 'OI'*N
 
+i = 0
 cnt = 0
-while True:
-    x = S.find(NS)
-    if x == -1:
-        break
-    else:
+ans = 0
+while i+3 <= M:
+    if S[i:i + 3] == 'IOI':
         cnt += 1
-        S = S[x+2:]
+        i += 2
+        if cnt == N:
+            ans += 1
+            cnt -= 1
+    else:
+        cnt = 0
+        i += 1
 
-sys.stdout.write(str(cnt))
+sys.stdout.write(str(ans))
