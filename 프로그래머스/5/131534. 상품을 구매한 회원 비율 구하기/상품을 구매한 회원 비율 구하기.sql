@@ -1,0 +1,28 @@
+-- 코드를 입력하세요
+WITH
+    A AS (
+        SELECT USER_ID
+        FROM USER_INFO 
+        WHERE DATE_FORMAT(JOINED, '%Y') = '2021' 
+    ),
+    B AS (
+        SELECT
+            DATE_FORMAT(SALES_DATE, '%Y') AS YEAR,
+            DATE_FORMAT(SALES_DATE, '%m') AS MONTH,     
+            USER_ID
+        FROM ONLINE_SALE
+        WHERE USER_ID IN (
+            SELECT USER_ID
+            FROM USER_INFO 
+            WHERE DATE_FORMAT(JOINED, '%Y') = '2021'
+        )
+        GROUP BY YEAR, MONTH, USER_ID
+    )
+SELECT
+    YEAR,
+    MONTH,
+    COUNT(USER_ID) AS PUCHASED_USERS,
+    ROUND(COUNT(USER_ID)/(SELECT COUNT(USER_ID) FROM A), 1) AS PUCHASED_RATIO
+FROM B
+GROUP BY YEAR, MONTH
+ORDER BY YEAR ASC, MONTH ASC
