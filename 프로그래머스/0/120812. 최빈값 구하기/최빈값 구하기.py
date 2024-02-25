@@ -1,8 +1,14 @@
 def solution(array):
-    while len(array) != 0:
-        i = -1
-        for i, a in enumerate(set(array)):
-            array.remove(a)
-        if i == 0:
-            return a
-    return -1
+    keys = set(array)
+    dict = {}
+    max_freq = []
+    for key in keys:
+        dict[key] = array.count(key)
+    for key in keys:
+        if dict[key] == max(dict.values()):
+            max_freq.append(key)
+    if len(max_freq) > 1:
+        answer = -1
+    else:
+        answer = max_freq[0]
+    return answer
