@@ -1,48 +1,47 @@
-N, M, V = map(int, input().split())
-li = [[] for _ in range(N+1)]
-for _ in range(M):
-    x, y = map(int, input().split())
-    li[x].append([x, y])
-    li[y].append([y, x])
-for val in li:
-    val.sort(key=lambda x:x[1])
+import sys
+from collections import deque
 
-tf = [False]*(N+1)
-tf[V] = True
-li_tmp = [V]
-li_temp = [V]
-def dfs():
-    global li_temp, li_tmp, tf, li
-    if not li_tmp:
-        return
-    for val in li[li_tmp.pop()]:
-        if tf[val[1]]:
-            continue
-        else:
-            li_tmp.append(val[1])
-            li_temp.append(val[1])
-            tf[val[1]] = True
-            dfs()
 
-dfs()
-print(*li_temp)
+def solution(N, M, V, dic):
+    def dfs(x):
+        tf_dfs[x] = True
+        ans_dfs.append(x)
+        for i in dic[x]:
+            if tf_dfs[i] == False:
+                dfs(i)
 
-tf = [False]*(N+1)
-tf[V] = True
-li_tmp = [V]
-li_temp = [V]
-def bfs():
-    global li_temp, li_tmp, tf, li
-    if not li_tmp:
-        return
-    for val in li[li_tmp.pop(0)]:
-        if tf[val[1]]:
-            continue
-        else:
-            li_tmp.append(val[1])
-            li_temp.append(val[1])
-            tf[val[1]] = True
-    bfs()
+    def bfs(x):
+        ans = []
+        que = deque([])
+        que.append(x)
+        tf_bfs[x] = True
+        ans.append(x)
+        while que:
+            n = que.popleft()
+            for i in dic[n]:
+                if tf_bfs[i] == False:
+                    que.append(i)
+                    tf_bfs[i] = True
+                    ans.append(i)
+        return ans
 
-bfs()
-print(*li_temp)
+    tf_dfs = [False] * (N + 1)
+    ans_dfs = []
+    dfs(V)
+    print(*ans_dfs)
+    tf_bfs = [False] * (N + 1)
+    print(*bfs(V))
+
+
+N, M, V = map(int, sys.stdin.readline().split())
+dic = {n: [] for n in range(N + 1)}
+readlines = sys.stdin.readlines()
+for readline in readlines:
+    x, y = map(int, readline.split())
+    dic[x].append(y)
+    dic[y].append(x)
+
+for v in dic.values():
+    v.sort()
+
+solution(N, M, V, dic)
