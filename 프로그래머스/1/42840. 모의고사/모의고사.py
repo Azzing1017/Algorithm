@@ -1,23 +1,15 @@
 def solution(answers):
     answer = []
-    li1 = [1,2,3,4,5]
-    li2 = [2,1,2,3,2,4,2,5]
-    li3 = [3,3,1,1,2,2,4,4,5,5]
-    cor1 = 0
-    cor2 = 0
-    cor3 = 0
-    for i in range(len(answers)):
-        if answers[i] == li1[i%5]:
-            cor1 += 1
-        if answers[i] == li2[i%8]:
-            cor2 += 1
-        if answers[i] == li3[i%10]:
-            cor3 += 1
-    cor_max = max(cor1, cor2, cor3)
-    if cor1 == cor_max:
-        answer.append(1)
-    if cor2 == cor_max:
-        answer.append(2)
-    if cor3 == cor_max:
-        answer.append(3)
+    p = [[1,2,3,4,5],
+        [2,1,2,3,2,4,2,5],
+        [3,3,1,1,2,2,4,4,5,5]]
+    s = [0] * len(p)
+
+    for q, a in enumerate(answers):
+        for i, c in enumerate(p):
+            if a == c[q%len(c)]:
+                s[i] += 1
+    max_cor = max(s)
+    answer = [i for i, cor in enumerate(s, start = 1) if cor == max_cor]
+    
     return answer
