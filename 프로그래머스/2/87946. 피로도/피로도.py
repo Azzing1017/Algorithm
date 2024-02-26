@@ -1,23 +1,21 @@
 from collections import deque
 
 def solution(k, dungeons):
-    global max_num
+    global answer
     answer = -1
-    max_num = 0
+    for i in range(len(dungeons)):
+        dungeons[i].append(dungeons[i][0] - dungeons[i][1])
+    dungeons.sort(key=lambda x: (-x[2], -x[0]))
     
-    def go(cur, cnt):
-        global max_num
-        for i, v in enumerate(dungeons):
-            m, n = v
-            if tf[i] == False and cur >= m:
-                tf[i] = True
-                if max_num < cnt+1:
-                    max_num = cnt+1
-                go(cur - n, cnt + 1)
-                tf[i] = False
+    def go(idx, cur, cnt):
+        global answer
+        if answer < cnt:
+            answer = cnt
+        for i in range(idx, len(dungeons)):
+            m, n, k = dungeons[i]
+            if cur >= m:
+                go(i+1, cur-n, cnt+1)
     
-    tf = [False] * len(dungeons)
-    go(k, 0)
-    answer = max_num
-    
+    go(0, k, 0)
+
     return answer
