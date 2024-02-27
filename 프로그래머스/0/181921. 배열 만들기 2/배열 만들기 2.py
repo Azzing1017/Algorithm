@@ -1,15 +1,13 @@
 def solution(l, r):
     answer = []
-    def go(index, goal, tmp, li):
-        if index == goal:
-            if l <= int(tmp) <= r:
-                answer.append(int(tmp))
-        else:
-            for a in li:
-                go(index+1, goal, tmp+a, li)
-    go(0, len(str(r)), '', ['0', '5'])
-    if answer:
-        answer = sorted(set(answer))
-    else:
-        answer = [-1]
-    return answer
+    i = 1
+    n = 5
+
+    while True:
+        if n > r: break
+        n = 5 * int(bin(i)[2:])
+        if l <= n <= r:
+            answer.append(n)
+        i += 1
+
+    return [-1] if len(answer) == 0 else answer
