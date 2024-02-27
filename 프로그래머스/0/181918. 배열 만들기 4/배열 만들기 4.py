@@ -1,15 +1,7 @@
 def solution(arr):
     stk = []
-    i = 0
-    while 0 <= i < len(arr):
-        if not stk:
-            stk.append(arr[i])
-            i += 1
-        elif stk and stk[-1] < arr[i]:
-            stk.append(arr[i])
-            i += 1
-        elif stk and stk[-1] >= arr[i]:
+    for i in range(len(arr)):
+        while stk and stk[-1] >= arr[i]:
             stk.pop()
-        else:
-            break
+        stk.append(arr[i])
     return stk
