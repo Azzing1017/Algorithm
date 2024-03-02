@@ -1,17 +1,21 @@
-cnt = 0
-
-def dfs(index, total, numbers, target):
-    global cnt
-    if index == len(numbers):
-        if total == target:
-            cnt += 1
-        return
-    else:
-        dfs(index + 1, total + numbers[index], numbers, target)
-        dfs(index + 1, total - numbers[index], numbers, target)
+from collections import deque
 
 def solution(numbers, target):
-    global cnt
-    dfs(1, numbers[0], numbers, target)
-    dfs(1, -numbers[0], numbers, target)
-    return cnt
+    l = len(numbers)
+    que = deque([])
+    answer = 0
+    cnt = 0
+    que.append([0, -numbers[0]])
+    que.append([0, numbers[0]])
+    while que:
+        index, cur = que.popleft()
+        index += 1
+        if index == l:
+            if cur == target:
+                cnt += 1
+        else:
+            que.append([index, cur - numbers[index]])
+            que.append([index, cur + numbers[index]])
+    answer = cnt
+    
+    return answer
