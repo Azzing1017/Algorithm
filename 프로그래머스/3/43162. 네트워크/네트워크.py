@@ -1,20 +1,30 @@
 def solution(n, computers):
-    answer = 0
-    
-    tf = [0] * n
-    
-    def dfs(x):
-        tf[x] = 1
-        for a in range(n):
-            if not tf[a]:
-                if computers[x][a] == 1:
-                    dfs(a)
-    
-    for i in range(n):
-        if tf[i]:
-            continue
+    parents = [i for i in range(n)]
+
+    def find(a):
+        if parents[a] == a:
+            return a
+        parents[a] = find(parents[a])
+        return parents[a]
+
+    def union(a, b):
+        aP = find(a)
+        bP = find(b)
+
+        if aP < bP:
+            parents[bP] = aP
         else:
-            answer += 1
-            dfs(i)
-    
-    return answer
+            parents[aP] = bP
+
+    for row in range(n):
+        for col in range(n):
+            if row == col:
+                continue
+
+            if computers[row][col]:
+                union(row, col)
+
+    ans = set()
+    for i in range(n):
+        ans.add(find(parents[i]))
+    return len(ans)
